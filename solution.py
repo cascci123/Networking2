@@ -3,19 +3,18 @@ from socket import *
 import sys  # In order to terminate the program
 
 
-def webServer(port=13331):
-
+def webserver(port=13331):
     serverSocket = socket(AF_INET, SOCK_STREAM)
+
     # Prepare a sever socket
     # Fill in start
-    serverSocket.bind(('', port))
+    serverSocket.bind(('127.0.0.1', port))
     # Fill in end
-    serverSocket.listen(1)
+    serverSocket.listen()
     while True:
         # Establish the connection
         print('Ready to serve...')
-        connectionSocket, addr = serverSocket.accept()
-        # Fill in start      #Fill in end
+        connectionSocket, addr = serverSocket.accept()  # Fill in start      #Fill in end
         try:
             message = connectionSocket.recv(1024)  # Fill in start    #Fill in end
             filename = message.split()[1]
@@ -37,16 +36,16 @@ def webServer(port=13331):
             # Send response message for file not found (404)
             # Fill in start
             connectionSocket.send('HTTP 1.1 404 Not Found\r\n\r\n')
-            # Fill in end
+        # Fill in end
 
-            # Close client socket
-            # Fill in start
+        # Close client socket
+        # Fill in start
             connectionSocket.close()
-            # Fill in end
+    # Fill in end
 
-    serverSocket.close()
-    sys.exit()  # Terminate the program after sending the corresponding data
+        serverSocket.close()
+        sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
-    webServer(13331)
+    webserver(13331)
