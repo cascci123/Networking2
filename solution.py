@@ -4,11 +4,11 @@ import sys  # In order to terminate the program
 
 
 def webServer(port=13331):
-    serverSocket = socket(AF_INET, SOCK_STREAM)
 
+    serverSocket = socket(AF_INET, SOCK_STREAM)
     # Prepare a sever socket
     # Fill in start
-    serverSocket.bind(("", port))
+    serverSocket.bind(('', port))
     # Fill in end
     serverSocket.listen(1)
     while True:
@@ -24,7 +24,7 @@ def webServer(port=13331):
 
             # Send one HTTP header line into socket
             # Fill in start
-            connectionSocket.send(bytes('HTTP/1.1 200 OK\r\n\r\n', 'UTF-8'))
+            connectionSocket.send('HTTP/1.1 200 OK\r\n\r\n')
             # Fill in end
 
             # Send the content of the requested file to the client
@@ -36,16 +36,16 @@ def webServer(port=13331):
         except IOError:
             # Send response message for file not found (404)
             # Fill in start
-            connectionSocket.send(bytes('HTTP 1.1 404 Not Found\r\n\r\n', 'UTF-8'))
-        # Fill in end
+            connectionSocket.send('HTTP 1.1 404 Not Found\r\n\r\n')
+            # Fill in end
 
-        # Close client socket
-        # Fill in start
+            # Close client socket
+            # Fill in start
             connectionSocket.close()
-    # Fill in end
+            # Fill in end
 
-        serverSocket.close()
-        sys.exit()  # Terminate the program after sending the corresponding data
+    serverSocket.close()
+    sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
