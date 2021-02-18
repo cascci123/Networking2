@@ -8,42 +8,48 @@ def webserver(port=13331):
 
     # Prepare a sever socket
     # Fill in start
-    serverSocket.bind(('127.0.0.1', port))
+    serverSocket.bind(('localhost', port))
     # Fill in end
-    serverSocket.listen()
+    serverSocket.listen(1)
     while True:
         # Establish the connection
         print('Ready to serve...')
         connectionSocket, addr = serverSocket.accept()  # Fill in start      #Fill in end
         try:
             message = connectionSocket.recv(1024)  # Fill in start    #Fill in end
+            print(message)
             filename = message.split()[1]
             f = open(filename[1:])
             outputdata = f.read()  # Fill in start     #Fill in end
-
+            print(outputdata)
             # Send one HTTP header line into socket
             # Fill in start
-            connectionSocket.send('HTTP/1.1 200 OK\r\n\r\n')
+            connectionSocket.send("HTTP 1.1 200 OK\n".encode())
+            connectionSocket.send("Content-Type: text/html\r\n\r\n".encode())
+            connectionSocket.send("<html><head></head><body><h1>200 OK</h1></body></html>\r\n".encode())
             # Fill in end
 
             # Send the content of the requested file to the client
             for i in range(0, len(outputdata)):
                 connectionSocket.send(outputdata[i].encode())
-
-            connectionSocket.send("\r\n".encode())
+            #connectionSocket.send("\r\n".encode())
             connectionSocket.close()
+
         except IOError:
             # Send response message for file not found (404)
             # Fill in start
-            connectionSocket.send('HTTP 1.1 404 Not Found\r\n\r\n')
-        # Fill in end
+            connectionSocket.send("HTTP 1.1 404 Not Found\n".encode())
+            connectionSocket.send("Content-Type: text/html\r\n\r\n".encode())
+            connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode())
 
-        # Close client socket
-        # Fill in start
+            # Fill in end
+
+            # Close client socket
+            # Fill in start
             connectionSocket.close()
-    # Fill in end
+            # Fill in end
 
-        serverSocket.close()
+            serverSocket.close()
         sys.exit()  # Terminate the program after sending the corresponding data
 
 
