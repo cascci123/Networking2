@@ -8,7 +8,6 @@ def webserver(port=13331):
     serverSocket.bind(('localhost', port))
     serverSocket.listen(5)
     while True:
-        #print('Ready to serve...')
         connectionSocket, addr = serverSocket.accept()
         try:
             message = connectionSocket.recv(1024)
@@ -27,8 +26,8 @@ def webserver(port=13331):
             connectionSocket.send("File Not found".encode())
             connectionSocket.close()
 
-    serverSocket.close()
-    sys.exit()  # Terminate the program after sending the corresponding data
+        serverSocket.close()
+        sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
