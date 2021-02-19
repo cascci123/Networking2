@@ -15,10 +15,7 @@ def webserver(port=13331):
             filename = message.split()[1]
             f = open(filename[1:])
             outputdata = f.read()
-            connectionSocket.send('\n'.encode('utf-8'))
-            connectionSocket.send('HTTP/1.1 200 OK \n'.encode('utf-8'))
-            connectionSocket.send("\nHTTP/1.1 200 OK \nContent-Type: text/html\r\n\r\n".encode('utf-8'))
-            #connectionSocket.send('\n\n'.encode('utf-8'))
+            connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
 
             for i in range(0, len(outputdata)):
                 connectionSocket.send(outputdata[i].encode())
@@ -26,8 +23,8 @@ def webserver(port=13331):
             connectionSocket.close()
 
         except IOError:
-            connectionSocket.send("\nHTTP/1.1 404 Not Found\n".encode('utf-8'))
-            connectionSocket.send("\nHTTP/1.1 404 Not Found Content-Type: text/html\r\n\r\n".encode('utf-8'))
+            connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
+            connectionSocket.send("File Not found".encode())
             connectionSocket.close()
 
     serverSocket.close()
