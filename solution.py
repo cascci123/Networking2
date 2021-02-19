@@ -5,45 +5,30 @@ import sys  # In order to terminate the program
 
 def webserver(port=13331):
     serverSocket = socket(AF_INET, SOCK_STREAM)
-
-    # Prepare a sever socket
-    # Fill in start
     serverSocket.bind(('localhost', port))
-    # Fill in end
-    serverSocket.listen(1)
+    serverSocket.listen(5)
     while True:
-        # Establish the connection
         #print('Ready to serve...')
-        connectionSocket, addr = serverSocket.accept()  # Fill in start      #Fill in end
+        connectionSocket, addr = serverSocket.accept()
         try:
-            message = connectionSocket.recv(1024)  # Fill in start    #Fill in end
+            message = connectionSocket.recv(1024)
             filename = message.split()[1]
             f = open(filename[1:])
-            outputdata = f.read()  # Fill in start     #Fill in end
-            # Send one HTTP header line into socket
-            # Fill in start
-            connectionSocket.send("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n".encode('utf-8'))
-            # Fill in end
+            outputdata = f.read()
+            connectionSocket.send('\n'.encode('utf-8'))
+            connectionSocket.send('HTTP/1.1 200 OK \n'.encode('utf-8'))
+            connectionSocket.send("\nHTTP/1.1 200 OK \nContent-Type: text/html\r\n\r\n".encode('utf-8'))
+            #connectionSocket.send('\n\n'.encode('utf-8'))
 
-            # Send the content of the requested file to the client
             for i in range(0, len(outputdata)):
                 connectionSocket.send(outputdata[i].encode())
             connectionSocket.send("\r\n".encode())
             connectionSocket.close()
 
         except IOError:
-            # Send response message for file not found (404)
-            # Fill in start
-            connectionSocket.send("HTTP 1.1 404 Not Found\n".encode())
-            connectionSocket.send("Content-Type: text/html\r\n\r\n".encode('utf8'))
-            #connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode())
-
-            # Fill in end
-
-            # Close client socket
-            # Fill in start
+            connectionSocket.send("\nHTTP/1.1 404 Not Found\n".encode('utf-8'))
+            connectionSocket.send("\nHTTP/1.1 404 Not Found Content-Type: text/html\r\n\r\n".encode('utf-8'))
             connectionSocket.close()
-            # Fill in end
 
             serverSocket.close()
         sys.exit()  # Terminate the program after sending the corresponding data
