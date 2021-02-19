@@ -1,4 +1,4 @@
-# import solution module
+# import socket module
 from socket import *
 import sys  # In order to terminate the program
 
@@ -30,8 +30,8 @@ def webserver(port=13331):
             connectionSocket.send("\nHTTP/1.1 404 Not Found Content-Type: text/html\r\n\r\n".encode('utf-8'))
             connectionSocket.close()
 
-            serverSocket.close()
-        sys.exit()  # Terminate the program after sending the corresponding data
+    serverSocket.close()
+    sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
