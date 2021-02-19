@@ -27,8 +27,8 @@ def webserver(port=13331):
             connectionSocket.send("File Not found".encode())
             connectionSocket.close()
 
-        serverSocket.close()
-        sys.exit()
+    serverSocket.close()
+    sys.exit()
 
 
 if __name__ == "__main__":
