@@ -5,7 +5,7 @@ import sys  # In order to terminate the program
 
 def webServer(port=13331):
     serverSocket = socket(AF_INET, SOCK_STREAM)
-    serverSocket.bind((gethostname("localhost"), port))
+    serverSocket.bind(("", port))
     serverSocket.listen(5)
     while True:
         connectionSocket, addr = serverSocket.accept()
