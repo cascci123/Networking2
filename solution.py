@@ -5,8 +5,8 @@ import sys  # In order to terminate the program
 
 def webserver(port=13331):
     serverSocket = socket(AF_INET, SOCK_STREAM)
-    serverSocket.bind(('localhost', port))
-    serverSocket.listen(1)
+    serverSocket.bind(("", port))
+    serverSocket.listen(5)
     while True:
         connectionSocket, addr = serverSocket.accept()
         try:
@@ -14,7 +14,8 @@ def webserver(port=13331):
             filename = message.split()[1]
             f = open(filename[1:])
             outputdata = f.read()
-            connectionSocket.sendall("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n".encode())
+            connectionSocket.send("HTTP/1.1 200 OK\r\n".encode())
+            connectionSocket.send("Content-Type: text/html\r\n\r\n".encode())
 
             for i in range(0, len(outputdata)):
                 connectionSocket.send(outputdata[i].encode())
@@ -22,7 +23,9 @@ def webserver(port=13331):
             connectionSocket.close()
 
         except IOError:
-            connectionSocket.sendall("HTTP/1.1 404 Not Found\r\n\r\n404 Not Found\r\n".encode())
+            connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
+            connectionSocket.send("<html><head><title>Not Found</title></head><body><h1>404 Not Found</h1></body></html>".encode())
+            connectionSocket.send("\r\n".encode())
             connectionSocket.close()
 
         serverSocket.close()
