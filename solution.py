@@ -14,7 +14,6 @@ def webserver(port=13331):
             filename = message.split()[1]
             f = open(filename[1:])
             outputdata = f.read()
-            f.close()
             connectionSocket.sendall("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n".encode())
 
             for i in range(0, len(outputdata)):
